@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!-- 主布局 -->
+    <definition name="layout" template="/tiles/mainLayout.jsp"/>
+    <!-- 主布局 -->
+    <!-- 项目 -->
+    <definition name="basicView" extends="layout">
+        <put-attribute name="menuLeft" value="/tiles/menu_left.jsp" />
+        <put-attribute name="topNavigation" value="/tiles/top_navigation.jsp" />
+        <put-attribute name="contentBody" value="/tiles/content_body.jsp" />
+        <put-attribute name="footer" value="/tiles/footer.jsp" />
+        <put-attribute name="jsResource" value="/tiles/js_resource.jsp" />
+    </definition>
+    <!--项目-->
+</tiles-definitions>

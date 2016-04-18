@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.butioy.auth.dao.IAuthUserRoleDao">
+    <resultMap id="RM_auth_user_role" type="org.butioy.auth.domain.AuthUserRole">
+        <id property="id" column="ID"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="roleId" column="ROLE_ID"/>
+    </resultMap>
+
+    <sql id="select_all_column">
+        <![CDATA[
+          ID, USER_ID, ROLE_ID
+        ]]>
+    </sql>
+
+    <sql id="dynamic_insert_key">
+        <trim prefix="( " suffix=" )" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                ID,
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                USER_ID,
+            </if>
+            <if test="@Ognl@isNotEmpty(roleId)">
+                ROLE_ID,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="dynamic_insert_value">
+        <trim prefix="( " suffix=" )" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                #{userId},
+            </if>
+            <if test="@Ognl@isNotEmpty(roleId)">
+                #{roleId},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert" parameterType="org.butioy.auth.domain.AuthUserRole" useGeneratedKeys="true">
+        INSERT INTO auth_user_role <include refid="dynamic_insert_key"/>
+        VALUES <include refid="dynamic_insert_value"/>
+    </insert>
+
+    <update id="update" parameterType="org.butioy.auth.domain.AuthUserRole">
+        <if test="@Ognl@isNotEmpty(id)">
+            UPDATE auth_user_role
+            <set>
+                <if test="@Ognl@isNotEmpty(userId)">
+                    USER_ID = #{userId},
+                </if>
+                <if test="@Ognl@isNotEmpty(roleId)">
+                    ROLE_ID = #{roleId},
+                </if>
+            </set>
+            WHERE ID=#{id}
+        </if>
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM auth_user_role WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteByParam" parameterType="map">
+        DELETE FROM auth_user_role
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND ID = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                AND USER_ID = #{userId}
+            </if>
+            <if test="@Ognl@isNotEmpty(roleId)">
+                AND ROLE_ID = #{roleId}
+            </if>
+            <if test="@Ognl@isNotEmpty(ids)">
+                AND ID IN (#{ids})
+            </if>
+            <if test="@Ognl@isNotEmpty(userIds)">
+                AND USER_ID IN (#{userIds})
+            </if>
+            <if test="@Ognl@isNotEmpty(roleIds)">
+                AND ROLE_ID IN (#{roleIds})
+            </if>
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="int" resultMap="RM_auth_user_role">
+        SELECT <include refid="select_all_column"/> FROM auth_user_role WHERE id=#{id}
+    </select>
+
+    <select id="findList" parameterType="map" resultMap="RM_auth_user_role">
+        SELECT <include refid="select_all_column"/> FROM auth_user_role
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND ID = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(userId)">
+                AND USER_ID = #{userId}
+            </if>
+            <if test="@Ognl@isNotEmpty(roleId)">
+                AND ROLE_ID = #{roleId}
+            </if>
+            <if test="@Ognl@isNotEmpty(ids)">
+                AND ID IN (#{ids})
+            </if>
+            <if test="@Ognl@isNotEmpty(userIds)">
+                AND USER_ID IN (#{userIds})
+            </if>
+            <if test="@Ognl@isNotEmpty(roleIds)">
+                AND ROLE_ID IN (#{roleIds})
+            </if>
+        </where>
+        <if test="@Ognl@isNotEmpty(orderBy)">
+            ORDER BY #{orderBy}
+        </if>
+    </select>
+</mapper>

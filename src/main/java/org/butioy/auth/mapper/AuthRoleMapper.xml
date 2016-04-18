@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.butioy.auth.dao.IAuthRoleDao">
+    <resultMap id="RM_auth_role" type="org.butioy.auth.domain.AuthRole">
+        <id property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="addTime" column="ADD_TIME"/>
+        <result property="modifyTime" column="MODIFY_TIME"/>
+        <result property="addUserId" column="ADD_USER_ID"/>
+        <result property="status" column="STATUS"/>
+        <result property="isDelete" column="IS_DELETE"/>
+    </resultMap>
+
+    <sql id="select_all_column">
+        <![CDATA[
+          ID, NAME, ADD_TIME, MODIFY_TIME, ADD_USER_ID, STATUS, IS_DELETE
+        ]]>
+    </sql>
+
+    <sql id="dynamic_insert_key">
+        <trim prefix="( " suffix=" )" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                ID,
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                NAME,
+            </if>
+            <if test="@Ognl@isNotEmpty(addTime)">
+                ADD_TIME,
+            </if>
+            <if test="@Ognl@isNotEmpty(modifyTime)">
+                MODIFY_TIME,
+            </if>
+            <if test="@Ognl@isNotEmpty(addUserId)">
+                ADD_USER_ID,
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                STATUS,
+            </if>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                IS_DELETE,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="dynamic_insert_value">
+        <trim prefix="( " suffix=" )" suffixOverrides=",">
+            <if test="@Ognl@isNotEmpty(id)">
+                #{id},
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(addTime)">
+                #{addTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(modifyTime)">
+                #{modifyTime},
+            </if>
+            <if test="@Ognl@isNotEmpty(addUserId)">
+                #{addUserId},
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                #{status},
+            </if>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                #{isDelete},
+            </if>
+        </trim>
+    </sql>
+
+    <insert id="insert" parameterType="org.butioy.auth.domain.AuthRole" useGeneratedKeys="true">
+        INSERT INTO auth_role <include refid="dynamic_insert_key"/>
+        VALUES <include refid="dynamic_insert_value"/>
+    </insert>
+
+    <update id="update" parameterType="org.butioy.auth.domain.AuthRole">
+        <if test="@Ognl@isNotEmpty(id)">
+            UPDATE auth_role
+            <set>
+                <if test="@Ognl@isNotEmpty(name)">
+                    NAME = #{name},
+                </if>
+                <if test="@Ognl@isNotEmpty(addTime)">
+                    ADD_TIME = #{addTime},
+                </if>
+                <if test="@Ognl@isNotEmpty(modifyTime)">
+                    MODIFY_TIME = #{modifyTime},
+                </if>
+                <if test="@Ognl@isNotEmpty(addUserId)">
+                    ADD_USER_ID = #{addUserId},
+                </if>
+                <if test="@Ognl@isNotEmpty(status)">
+                    STATUS = #{status},
+                </if>
+                <if test="@Ognl@isNotEmpty(isDelete)">
+                    IS_DELETE = #{isDelete},
+                </if>
+            </set>
+            WHERE ID=#{id}
+        </if>
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM auth_role WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteByParam" parameterType="map">
+      DELETE FROM auth_role
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND ID = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND NAME = #{name}
+            </if>
+            <if test="@Ognl@isNotEmpty(addTime)">
+                AND ADD_TIME = #{addTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(modifyTime)">
+                AND MODIFY_TIME = #{modifyTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(addUserId)">
+                AND ADD_USER_ID = #{addUserId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND STATUS = #{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                AND IS_DELETE = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(ids)">
+                AND ID IN (#{ids})
+            </if>
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="int" resultMap="RM_auth_role">
+        SELECT <include refid="select_all_column"/>
+        FROM auth_role
+        WHERE id=#{id}
+    </select>
+
+    <select id="findList" parameterType="map" resultMap="RM_auth_role">
+        SELECT <include refid="select_all_column"/>
+        FROM auth_role
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND ID = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND NAME LIKE '%${name}%'
+            </if>
+            <if test="@Ognl@isNotEmpty(addTime)">
+                AND ADD_TIME = #{addTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(modifyTime)">
+                AND MODIFY_TIME = #{modifyTime}
+            </if>
+            <if test="@Ognl@isNotEmpty(addUserId)">
+                AND ADD_USER_ID = #{addUserId}
+            </if>
+            <if test="@Ognl@isNotEmpty(status)">
+                AND STATUS = #{status}
+            </if>
+            <if test="@Ognl@isNotEmpty(isDelete)">
+                AND IS_DELETE = #{isDelete}
+            </if>
+            <if test="@Ognl@isNotEmpty(ids)">
+                AND ID IN (#{ids})
+            </if>
+        </where>
+        <if test="@Ognl@isNotEmpty(orderBy)">
+            ORDER BY #{orderBy}
+        </if>
+    </select>
+</mapper>
